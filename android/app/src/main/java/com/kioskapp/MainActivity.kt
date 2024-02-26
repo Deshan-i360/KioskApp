@@ -4,6 +4,12 @@ import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
 import com.facebook.react.defaults.DefaultReactActivityDelegate
+import android.content.IntentFilter
+import android.content.Intent
+import android.content.ComponentName
+import android.content.Context
+import android.app.admin.DevicePolicyManager
+import android.app.Activity
 
 class MainActivity : ReactActivity() {
 
@@ -19,4 +25,29 @@ class MainActivity : ReactActivity() {
    */
   override fun createReactActivityDelegate(): ReactActivityDelegate =
       DefaultReactActivityDelegate(this, mainComponentName, fabricEnabled)
+
+
+      override fun onBackPressed (){
+       
+      }
+
+      override fun onPause (){
+
+      }
+
+      override fun onResume(){
+
+      }
+
+
+      override fun onUserLeaveHint(){
+
+      }
+
+      override fun onWindowFocusChanged (hasFocus:Boolean) {
+
+      }
+
+
+
 }
