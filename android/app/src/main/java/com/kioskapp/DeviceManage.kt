@@ -1,31 +1,36 @@
-// import android.app.admin.DevicePolicyManager
-// import android.content.ComponentName
-// import android.content.Context
+import android.app.admin.DevicePolicyManager
+import android.app.admin.DeviceAdminReceiver
+import android.content.ComponentName
+import android.content.Context
+import android.util.Log
 
-// class DeviceManager(private val context: Context) {
+class DeviceAdminBReceiver : DeviceAdminReceiver() {
+  override fun onEnabled(context: android.content.Context, intent: android.content.Intent) {
+      super.onEnabled(context, intent)
 
-//     // Allowlist two apps.
-//     private val KIOSK_PACKAGE = "com.kioskapp"
-//     private val PLAYER_PACKAGE = "com.example.player"
-//     private val APP_PACKAGES = arrayOf(KIOSK_PACKAGE, PLAYER_PACKAGE)
+      allowLockTaskModeToThisApp(context, context!!.packageName)
 
-//     private val dpm: DevicePolicyManager = context.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
-//     private val adminName: ComponentName = getComponentName(context)
+      Log.d("DeviceAdminBReceiver", "onEnabled")
+  }
 
-//     // Function to allowlist apps for lock task mode
-//     fun allowlistAppsForLockTask() {
-//         dpm.setLockTaskPackages(adminName, APP_PACKAGES)
-//     }
+  override fun onDisabled(context: android.content.Context, intent: android.content.Intent) {
+      super.onDisabled(context, intent)
+      Log.d("DeviceAdminBReceiver", "onDisabled")
+  }
 
-//     // Other methods in your DeviceManager class
+  override fun onLockTaskModeEntering(context: android.content.Context, intent: android.content.Intent, pkg: String) {
+      super.onLockTaskModeEntering(context, intent, pkg)
+      Log.d("DeviceAdminBReceiver", "onLockTaskModeEntering")
+  }
 
-//     // Function to check if an app is allowlisted for lock task mode
-//     fun isAppAllowlistedForLockTask(appPackage: String): Boolean {
-//         return dpm.isLockTaskPermitted(appPackage)
-//     }
+  override fun onLockTaskModeExiting(context: android.content.Context, intent: android.content.Intent) {
+      super.onLockTaskModeExiting(context, intent)
+      Log.d("DeviceAdminBReceiver", "onLockTaskModeExiting")
+  }
 
-//     // Function to retrieve the list of allowlisted apps for lock task mode
-//     fun getAllowlistedAppsForLockTask(): Array<String> {
-//         return dpm.getLockTaskPackages(adminName)
-//     }
-// }
+  private fun allowLockTaskModeToThisApp(context: android.content.Context, packageName: String) {
+      val dpm = context!!.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
+      val deviceAdmin = ComponentName(context!!, DeviceAdminBReceiver::class.java)
+      dpm.setLockTaskPackages(deviceAdmin, arrayOf(packageName))
+  }
+}

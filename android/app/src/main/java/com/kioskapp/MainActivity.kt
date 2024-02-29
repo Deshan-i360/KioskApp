@@ -10,9 +10,18 @@ import android.content.ComponentName
 import android.content.Context
 import android.app.admin.DevicePolicyManager
 import android.app.Activity
+import android.os.Bundle
 
 class MainActivity : ReactActivity() {
 
+
+  companion object {
+    private var instance: MainActivity? = null
+
+    fun getInstance(): MainActivity? {
+        return instance
+    }
+}
   /**
    * Returns the name of the main component registered from JavaScript. This is used to schedule
    * rendering of the component.
@@ -23,31 +32,55 @@ class MainActivity : ReactActivity() {
    * Returns the instance of the [ReactActivityDelegate]. We use [DefaultReactActivityDelegate]
    * which allows you to enable New Architecture with a single boolean flags [fabricEnabled]
    */
-  override fun createReactActivityDelegate(): ReactActivityDelegate =
-      DefaultReactActivityDelegate(this, mainComponentName, fabricEnabled)
+      override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val dpm = getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
+        instance = this
+    }
 
+    fun enterLockTask() {
+      instance?.startLockTask()
+    }
 
-      override fun onBackPressed (){
-       
-      }
+    fun exitLockTask() {
+        try {
+          instance?.startLockTask()
+        } catch (e: Exception) {
+            println(e.message)
+        }
+    }
 
-      override fun onPause (){
-
-      }
-
-      override fun onResume(){
-
-      }
-
-
-      override fun onUserLeaveHint(){
-
-      }
-
-      override fun onWindowFocusChanged (hasFocus:Boolean) {
-
-      }
-
-
-
+    override fun onDestroy() {
+        super.onDestroy()
+        instance = null
+    }
 }
+
+
+
+
+
+fun enterLockTask( context: MainActivity, dpm: DevicePolicyManager) {
+
+   var texto = if (dpm.isLockTaskPermitted(context.packageName)) "app is allowed to lock"
+    else "app is not allowed to lock"
+   
+            context.startLockTask()
+    
+}
+
+
+fun exitLockTask( context: MainActivity) {
+   
+        try {
+            context.stopLockTask()
+        }
+        catch (e: Exception) {
+        }
+}
+
+
+
+
+
+

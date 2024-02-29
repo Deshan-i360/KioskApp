@@ -7,23 +7,25 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import  ImmersiveMode  from 'react-native-immersive-mode';
-// import { NativeModules } from 'react-native';
+// import  ImmersiveMode  from 'react-native-immersive-mode';
+import { NativeModules } from 'react-native';
 // import Kiosk from "react-native-kiosk";
 
 
 function App() {
-  // const { KioskAppModel } = NativeModules;
+  const { KioskAppModel } = NativeModules;
 
   const handleFullscreen = () => {
+    KioskAppModel.enterLockTask("dhodd;aj","ehjfoiiodf");
     // Kiosk.fullscreen();
     // NativeModules.KioskAppModel.createCalendarEvent("dhodd;aj","ehjfoiiodf")
-    ImmersiveMode.fullLayout(true);
+    // ImmersiveMode.fullLayout(true);
     
   };
 
   const handleExitFullscreen = () => {
-    ImmersiveMode.fullLayout(false);
+    KioskAppModel.exitLockTask("dhodd;aj","ehjfoiiodf");
+    // ImmersiveMode.fullLayout(false);
     // Kiosk.exitFullscreen();
   };
 
