@@ -10,6 +10,7 @@
       android:icon="@mipmap/ic_launcher"
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="true"
+      android:testOnly="true"
       android:theme="@style/AppTheme">
       <activity
         android:name=".MainActivity"
@@ -22,10 +23,11 @@
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.HOME" />
             <category android:name="android.intent.category.LAUNCHER" />
+             <category android:name="android.intent.category.DEFAULT" />
         </intent-filter>
       </activity>
        <receiver
-            android:name=".DeviceAdminBReceiver"
+            android:name=".DeviceManage"
             android:exported="true"
             android:label="Modo Kiosko"
             android:permission="android.permission.BIND_DEVICE_ADMIN">

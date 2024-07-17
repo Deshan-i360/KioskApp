@@ -30,14 +30,15 @@ class KioskAppModel(reactContext: ReactApplicationContext) : ReactContextBaseJav
     fun enterLockTask(name: String, location: String) {
         Log.d("CalendarModule", "Create event called with name: $name and location: $location")
         val mainActivity = currentActivity as? MainActivity
-        mainActivity?.enterLockTask()
+        mainActivity?.setKioskPolicies(true)
     }
 
     @ReactMethod
     fun exitLockTask(name: String, location: String) {
         Log.d("CalendarModule", "Create event called with name: $name and location: $location")
         val mainActivity = currentActivity as? MainActivity
-        mainActivity?.exitLockTask()
+        mainActivity?.setKioskPolicies(false)
+
     }
         
 }
